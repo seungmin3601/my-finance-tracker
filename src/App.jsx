@@ -1,35 +1,94 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
+  const [notes, setNotes] = useState({});
+
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const getDaysInMonth = (year, month) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const currentMonth = monthNames[currentDate.getMonth()];
+  const currentYear = currentDate.getFullYear();
+
+  const daysInMonth = getDaysInMonth(currentYear, currentDate.getMonth());
+
+  const handleDateClick = (day) => {
+    setSelectedDate(day);
+  };
+
+  const handleSaveNote = (e, day) => {
+    const newNotes = { ...notes, [day]: e.target.value };
+    setNotes(newNotes);
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(currentYear, currentDate.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(currentYear, currentDate.getMonth() + 1, 1));
+  };
+
+  const handlePrevYear = () => {
+    setCurrentDate(new Date(currentYear - 1, currentDate.getMonth(), 1));
+  };
+
+  const handleNextYear = () => {
+    setCurrentDate(new Date(currentYear + 1, currentDate.getMonth(), 1));
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <h1>{`${currentMonth} ${currentYear}`}</h1>
+      <div className="calendar-controls">
+        <button onClick={handlePrevYear}>{"<<"}</button>
+        <button onClick={handlePrevMonth}>{"<"}</button>
+        <button onClick={handleNextMonth}>{">"}</button>
+        <button onClick={handleNextYear}>{">>"}</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="calendar">
+        <div className="grid">
+          {[...Array(daysInMonth)].map((_, i) => (
+            <div
+              key={i + 1}
+              className={`day ${selectedDate === i + 1 ? "selected" : ""}`}
+              onClick={() => handleDateClick(i + 1)}
+            >
+              <div className="day-number">{i + 1}</div>
+              <div className="note-thumbnail">
+                {notes[i + 1] ? notes[i + 1].substring(0, 10) + "..." : ""}
+              </div>
+              {selectedDate === i + 1 && (
+                <textarea
+                  value={notes[i + 1] || ""}
+                  onChange={(e) => handleSaveNote(e, i + 1)}
+                  placeholder="Add a note"
+                />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
