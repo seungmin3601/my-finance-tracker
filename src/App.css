@@ -1,9 +1,22 @@
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
   font-family: Arial, sans-serif;
+  padding: 20px;
   width: 100%;
+}
+
+.calendar-section {
+  flex: 2;
+  color: #0056b3;
+}
+
+.transaction-section {
+  flex: 1;
+  margin-left: 200px;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 .calendar {
@@ -11,7 +24,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-  width: 90%;
+  width: 100%;
 }
 
 .grid {
@@ -34,56 +47,55 @@
   background-color: #f9f9f9;
   text-align: center;
   padding: 5px;
-  position: relative;
 }
 
 .day.selected {
   background-color: #ffeb3b;
 }
 
-.day-number {
-  font-weight: bold;
-  color: black;
+.transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.note-thumbnail {
-  font-size: 12px;
-  color: #555;
-  margin-top: 5px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width: 90%;
+.transaction-form input,
+.transaction-form select,
+.transaction-form button {
+  padding: 10px;
+  font-size: 16px;
 }
 
-textarea {
-  width: 90%;
-  height: 60px;
-  margin-top: 5px;
-  padding: 5px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  resize: none;
-}
-
-textarea:focus {
-  outline: none;
-  border-color: #ffeb3b;
-}
-
-button {
-  margin-top: 10px;
-  padding: 5px 10px;
+.transaction-form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
   cursor: pointer;
 }
 
-.calendar-controls {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
+.transaction-form button:hover {
+  background-color: #0056b3;
 }
 
-button {
-  margin: 0 5px;
+.transaction-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.transaction-list li {
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.spending {
+  background-color: #ffcccc;
+  color: red;
+}
+
+.deposit {
+  background-color: #ccffcc;
+  color: green;
 }
